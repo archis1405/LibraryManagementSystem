@@ -14,6 +14,4 @@ public class TitleSearchStratergy implements SearchStratergy {
     public List<Book> search(String query){
         return bookRepository.findByTitle(query);
     }
-
-
 }
