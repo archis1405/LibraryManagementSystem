@@ -13,17 +13,17 @@ public class LendingService {
     private final ReservationRepository reservationRepository;
     private NotificationService notificationService;
 
-    public LendingService(BookRepository bookRepository , PatronRepository patronRepository , ReservationRepository reservationRepository){
-        this.bookRepository=bookRepository;
-        this.patronRepository=patronRepository;
-        this.reservationRepository=reservationRepository;
+    public LendingService(BookRepository bookRepository, PatronRepository patronRepository, ReservationRepository reservationRepository) {
+        this.bookRepository = bookRepository;
+        this.patronRepository = patronRepository;
+        this.reservationRepository = reservationRepository;
     }
 
-    public void setNotificationService(NotificationService notficationService){
-        this.notificationService=notficationService;
+    public void setNotificationService(NotificationService notficationService) {
+        this.notificationService = notficationService;
     }
 
-    public boolean checkoutBook(String isbn , String patronId) {
+    public boolean checkoutBook(String isbn, String patronId) {
         Optional<Book> bookOpt = bookRepository.findByIsbn(isbn);
         Optional<Patron> patronOpt = patronRepository.findById(patronId);
 
@@ -50,7 +50,7 @@ public class LendingService {
         return true;
     }
 
-    public boolean returnBook(String isbn , String patronId){
+    public boolean returnBook(String isbn, String patronId) {
         Optional<Book> bookOpt = bookRepository.findByIsbn(isbn);
         Optional<Patron> patronOpt = patronRepository.findById(patronId);
 
@@ -61,7 +61,7 @@ public class LendingService {
         Book book = bookOpt.get();
         Patron patron = patronOpt.get();
 
-        if(!patronId.equals(book.getCurrentBorrower())){
+        if (!patronId.equals(book.getCurrentBorrower())) {
             return false;
         }
 
@@ -78,20 +78,22 @@ public class LendingService {
         return true;
     }
 
-    private void notifyReservationHolders(String isbn){
-        if(notificationService != null){
+    private void notifyReservationHolders(String isbn) {
+        if (notificationService != null) {
             var reservations = reservationRepository.findActiveReservationsByIsbn(isbn);
-            if(!reservations.isEmpty()){
+            if (!reservations.isEmpty()) {
                 Reservation nextReservation = reservations.get(0);
 
                 Optional<Patron> patronOpt = patronRepository.findById(nextReservation.getPatronId());
                 Optional<Book> bookOpt = bookRepository.findByIsbn(isbn);
 
-                if(patronOpt.isPresent() && bookOpt.isPresent()){
+                if (patronOpt.isPresent() && bookOpt.isPresent()) {
                     String message = String.format("Book '%s' is now available for %s",
                             bookOpt.get().getTitle(), patronOpt.get().getName());
                     notificationService.notifyObservers(message);
                 }
             }
         }
+    }
 }
+
