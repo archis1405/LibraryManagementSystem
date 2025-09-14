@@ -9,10 +9,10 @@ public class LibraryManagementSystem {
     public static void main(String[] args) {
         Logger.info("Starting Library Management System");
 
-        // Create library service using factory pattern
+
         LibraryService library = LibraryFactory.createLibraryService();
 
-        // Demo the system
+
         demonstrateLibrarySystem(library);
 
         Logger.info("Library Management System demonstration completed");
