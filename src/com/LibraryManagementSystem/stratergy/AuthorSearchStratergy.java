@@ -4,7 +4,7 @@ import com.LibraryManagementSystem.models.Book;
 import com.LibraryManagementSystem.repository.BookRepository;
 import java.util.*;
 
-public class AuthorSearchStratergy {
+public class AuthorSearchStratergy implements SearchStratergy {
     private final BookRepository bookRepository;
 
     public AuthorSearchStratergy(BookRepository bookRepository){
