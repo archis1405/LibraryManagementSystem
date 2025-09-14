@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 public class Logger {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm:ss");
 
-    private static void info(String message) {
+    public static void info(String message) {
         log("INFO", message);
     }
 
